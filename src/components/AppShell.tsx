@@ -37,12 +37,13 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       {/* Header */}
       <header className="bg-navy-900 text-gold-100 px-4 py-2.5 flex items-center gap-4 sticky top-0 z-40">
         {/* Logo */}
-        <span
-          className="font-semibold tracking-wide text-lg cursor-pointer flex-shrink-0"
+        <img
+          src="/rednaz-logo.png"
+          alt="RedNaz"
           onClick={() => navigate('/roster')}
-        >
-          RedNaz
-        </span>
+          className="h-10 w-auto cursor-pointer flex-shrink-0"
+          style={{ mixBlendMode: 'screen' }}
+        />
 
         {/* Wide nav links (hidden on mobile) */}
         {user && (
