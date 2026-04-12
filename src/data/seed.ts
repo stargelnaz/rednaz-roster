@@ -35,6 +35,7 @@ export const PEOPLE: Person[] = [
   { id: 'Elaine',   firstName: 'Elaine',   email: 'elaine@rednaz.net.au',   phone: '+61 445 567 013' },
   { id: 'Jo',       firstName: 'Jo',       email: 'jo@rednaz.net.au',       phone: '+61 456 678 014' },
   { id: 'George',   firstName: 'George',   email: 'george@rednaz.net.au',   phone: '+61 467 789 015' },
+  { id: 'Shilah',   firstName: 'Shilah',   email: 'shilah@rednaz.net.au',   phone: '+61 478 890 016' },
 ]
 
 export const ROLES: Role[] = [
@@ -260,6 +261,23 @@ export interface RoleCategory {
   label: string
   roleIds: string[]
 }
+
+export interface ChildrenLesson {
+  date: string       // YYYY-MM-DD — matches SERVICE_DATES
+  teacher?: string   // personId
+  helper?: string    // personId
+  lesson?: string    // e.g. "R6 God is Able to Save Us"
+}
+
+export const CHILDREN_LESSONS: ChildrenLesson[] = [
+  { date: '2026-04-12', teacher: 'Lyn',    lesson: 'R6 God is Able to Save Us' },
+  { date: '2026-04-19', teacher: 'Marie',  lesson: 'R7 God Keeps All His Promises' },
+  { date: '2026-04-26', teacher: 'Tish',   lesson: 'R8 God Helps Us When We Ask' },
+  { date: '2026-05-03', teacher: 'Lyn',    lesson: 'R9 Doing More with God\'s Help' },
+  { date: '2026-05-10', teacher: 'Shilah', lesson: 'R10 Trust God, but Keep Trying' },
+  { date: '2026-05-17', teacher: 'Marie',  lesson: 'R11 God Gives Us a Way to Be Saved' },
+  { date: '2026-05-24', teacher: 'Linda',  lesson: 'R12 Celebrate God!' },
+]
 
 export const ROLE_CATEGORIES: RoleCategory[] = [
   {

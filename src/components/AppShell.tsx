@@ -8,6 +8,7 @@ declare const __BUILD__: string
 const NAV_ITEMS = [
   { to: '/calendar', label: 'Calendar' },
   { to: '/people',   label: 'People'   },
+  { to: '/children', label: 'Children' },
   { to: '/settings', label: 'Settings' },
   { to: '/profile',  label: 'Profile'  },
 ]
