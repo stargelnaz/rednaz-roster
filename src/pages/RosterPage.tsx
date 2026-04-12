@@ -1,11 +1,28 @@
 import { useState } from 'react'
-import { SERVICE_DATES, ROLES, ROLE_CATEGORIES } from '../data/seed'
+import { SERVICE_DATES, ROLES, ROLE_CATEGORIES, CHILDREN_LESSONS } from '../data/seed'
 import type { Assignment, ServiceDate } from '../types'
 import { RoleBox } from '../components/RoleBox'
 import { ServiceCarousel } from '../components/ServiceCarousel'
 import { EditRoleModal } from '../components/EditRoleModal'
 
 const ROLE_MAP = Object.fromEntries(ROLES.map((r) => [r.id, r]))
+
+/** Seed SERVICE_DATES with teacher/helper from CHILDREN_LESSONS */
+function buildInitialServices(): ServiceDate[] {
+  const lessonMap = Object.fromEntries(CHILDREN_LESSONS.map((l) => [l.date, l]))
+  return SERVICE_DATES.map((service) => {
+    const cl = lessonMap[service.date]
+    if (!cl) return service
+    const assignments = { ...service.assignments }
+    if (cl.teacher && !assignments['sunday-school-teacher']?.length) {
+      assignments['sunday-school-teacher'] = [{ personId: cl.teacher, confirmed: false }]
+    }
+    if (cl.helper && !assignments['sunday-school-helper']?.length) {
+      assignments['sunday-school-helper'] = [{ personId: cl.helper, confirmed: false }]
+    }
+    return { ...service, assignments }
+  })
+}
 
 function todayIndex() {
   const today = new Date()
@@ -19,7 +36,7 @@ function todayIndex() {
 
 export function RosterPage() {
   const [serviceIndex, setServiceIndex] = useState(todayIndex)
-  const [services, setServices] = useState<ServiceDate[]>(SERVICE_DATES)
+  const [services, setServices] = useState<ServiceDate[]>(buildInitialServices)
   const [editingRole, setEditingRole] = useState<string | null>(null)
 
   const service = services[serviceIndex]
