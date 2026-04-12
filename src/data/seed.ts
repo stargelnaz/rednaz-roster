@@ -44,9 +44,12 @@ export const ROLES: Role[] = [
   { id: 'reader-2',       name: 'Reader 2',        order: 4 },
   { id: 'reader-3',       name: 'Reader 3',        order: 5 },
   { id: 'pianist',        name: 'Pianist',         order: 6 },
-  { id: 'counter-1',      name: 'Counter 1',       order: 7 },
-  { id: 'counter-2',      name: 'Counter 2',       order: 8 },
-  { id: 'kitchen',        name: 'Kitchen',         order: 9 },
+  { id: 'counter-1',              name: 'Counter 1',              order: 7 },
+  { id: 'counter-2',              name: 'Counter 2',              order: 8 },
+  { id: 'kitchen',                name: 'Kitchen',                order: 9 },
+  { id: 'kids-talk',              name: 'Kids Talk',              order: 10 },
+  { id: 'sunday-school-teacher',  name: 'Sunday School Teacher',  order: 11 },
+  { id: 'sunday-school-helper',   name: 'Sunday School Helper',   order: 12 },
 ]
 
 /** 14 Sundays: last Sunday, this Sunday, next 12 */
@@ -252,3 +255,27 @@ export const SERVICE_DATES: ServiceDate[] = [
 export const PEOPLE_MAP: Record<string, Person> = Object.fromEntries(
   PEOPLE.map((p) => [p.id, p])
 )
+
+export interface RoleCategory {
+  label: string
+  roleIds: string[]
+}
+
+export const ROLE_CATEGORIES: RoleCategory[] = [
+  {
+    label: 'Worship',
+    roleIds: ['preacher', 'worship-leader', 'pianist', 'reader-1', 'reader-2', 'reader-3'],
+  },
+  {
+    label: 'Children',
+    roleIds: ['kids-talk', 'sunday-school-teacher', 'sunday-school-helper'],
+  },
+  {
+    label: 'Kitchen',
+    roleIds: ['kitchen'],
+  },
+  {
+    label: 'Counters',
+    roleIds: ['counter-1', 'counter-2'],
+  },
+]
