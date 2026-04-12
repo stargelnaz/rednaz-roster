@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { Check, Pencil } from 'lucide-react'
+import { Pencil } from 'lucide-react'
 import type { Role, Assignment } from '../types'
 import { PEOPLE_MAP } from '../data/seed'
 
@@ -60,14 +60,12 @@ export function RoleBox({ role, assignments, onConfirmToggle, onEdit }: Props) {
                 <button
                   onClick={() => onConfirmToggle(a.personId)}
                   aria-label={a.confirmed ? 'Unconfirm' : 'Confirm'}
-                  className={`rounded-full p-0.5 transition-colors flex-shrink-0 ${
+                  className={`w-3 h-3 rounded-full flex-shrink-0 transition-colors ${
                     a.confirmed
-                      ? 'bg-green-100 text-green-600 hover:bg-green-200'
-                      : 'bg-gold-100 text-gold-600 hover:bg-gold-200'
+                      ? 'bg-green-500 hover:bg-green-600'
+                      : 'bg-red-500 hover:bg-red-600'
                   }`}
-                >
-                  <Check size={11} />
-                </button>
+                />
               </div>
             )
           })
