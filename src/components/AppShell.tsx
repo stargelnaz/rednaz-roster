@@ -13,7 +13,8 @@ const NAV_ITEMS = [
 ]
 
 export function AppShell({ children }: { children: React.ReactNode }) {
-  const { user, signOut } = useAuth()
+  const { user, bypassed, signOut } = useAuth()
+  const isAuthenticated = !!user || bypassed
   const navigate = useNavigate()
   const [menuOpen, setMenuOpen] = useState(false)
   const menuRef = useRef<HTMLDivElement>(null)
@@ -53,7 +54,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         {/* Push nav to the right */}
         <div className="flex-1" />
 
-        {user && (
+        {isAuthenticated && (
           <>
             {/* ── Wide nav (md+) ── */}
             <nav className="hidden md:flex items-center gap-1 pr-3">
