@@ -1,14 +1,15 @@
 import { useState, useRef, useEffect } from 'react'
 import { NavLink, useNavigate } from 'react-router-dom'
-import { Menu, X, UserCircle } from 'lucide-react'
+import { Menu, X } from 'lucide-react'
 import { useAuth } from '../context/AuthContext'
 
 declare const __BUILD__: string
 
 const NAV_ITEMS = [
-  { to: '/people',   label: 'People' },
   { to: '/calendar', label: 'Calendar' },
-  { to: '/roles',    label: 'Roles' },
+  { to: '/people',   label: 'People'   },
+  { to: '/settings', label: 'Settings' },
+  { to: '/profile',  label: 'Profile'  },
 ]
 
 export function AppShell({ children }: { children: React.ReactNode }) {
@@ -34,122 +35,103 @@ export function AppShell({ children }: { children: React.ReactNode }) {
 
   return (
     <div className="min-h-svh flex flex-col bg-navy-50">
-      {/* Header */}
-      <header className="bg-navy-900 text-gold-100 px-4 py-2.5 flex items-center gap-4 sticky top-0 z-40">
-        {/* Logo */}
+
+      {/* ── Header bar ── */}
+      <header
+        className="w-full sticky top-0 z-40 flex items-center"
+        style={{ backgroundColor: '#fbbf24', height: '64px' }}
+      >
+        {/* Logo — flush left, full bar height, blend black away */}
         <img
           src="/rednaz-logo.png"
-          alt="RedNaz"
+          alt="Redlands Church of the Nazarene"
           onClick={() => navigate('/roster')}
-          className="h-10 w-auto cursor-pointer flex-shrink-0"
+          className="h-full w-auto cursor-pointer flex-shrink-0"
           style={{ mixBlendMode: 'screen' }}
         />
 
-        {/* Wide nav links (hidden on mobile) */}
+        {/* Push nav to the right */}
+        <div className="flex-1" />
+
         {user && (
-          <nav className="hidden sm:flex items-center gap-1 flex-1">
-            {NAV_ITEMS.map(({ to, label }) => (
-              <NavLink
-                key={to}
-                to={to}
-                className={({ isActive }) =>
-                  `px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
-                    isActive
-                      ? 'bg-navy-700 text-gold-300'
-                      : 'text-navy-300 hover:bg-navy-800 hover:text-gold-100'
-                  }`
-                }
-              >
-                {label}
-              </NavLink>
-            ))}
-          </nav>
-        )}
+          <>
+            {/* ── Wide nav (md+) ── */}
+            <nav className="hidden md:flex items-center gap-1 pr-3">
+              {NAV_ITEMS.map(({ to, label }) => (
+                <NavLink
+                  key={to}
+                  to={to}
+                  className={({ isActive }) =>
+                    `px-3 py-1.5 rounded-lg text-sm font-semibold transition-colors ${
+                      isActive
+                        ? 'bg-navy-900/20 text-navy-900'
+                        : 'text-navy-800 hover:bg-navy-900/10'
+                    }`
+                  }
+                >
+                  {label}
+                </NavLink>
+              ))}
 
-        {/* Spacer on mobile */}
-        <div className="flex-1 sm:hidden" />
+              {/* Build info */}
+              <span className="ml-3 text-xs text-navy-700/70 font-mono whitespace-nowrap">
+                {__BUILD__}
+              </span>
+            </nav>
 
-        {/* Right side: build info (wide) + profile/hamburger */}
-        {user && (
-          <div className="flex items-center gap-3">
-            {/* Build info — wide screens only */}
-            <span className="hidden sm:block text-xs text-navy-400 font-mono">
-              {__BUILD__}
-            </span>
-
-            {/* Profile / hamburger */}
-            <div className="relative" ref={menuRef}>
-              {/* Wide: profile icon; narrow: hamburger */}
+            {/* ── Hamburger (narrow) ── */}
+            <div className="md:hidden pr-3 relative" ref={menuRef}>
               <button
                 onClick={() => setMenuOpen((o) => !o)}
-                className="p-1 rounded hover:bg-navy-700 transition-colors"
+                className="p-1.5 rounded-lg text-navy-900 hover:bg-navy-900/10 transition-colors"
                 aria-label="Menu"
               >
-                {menuOpen
-                  ? <X size={22} />
-                  : <span className="sm:hidden"><Menu size={22} /></span>
-                }
-                <span className="hidden sm:inline">
-                  <UserCircle size={22} className="text-navy-300 hover:text-gold-200 transition-colors" />
-                </span>
+                {menuOpen ? <X size={24} /> : <Menu size={24} />}
               </button>
 
               {menuOpen && (
-                <div className="absolute right-0 mt-2 w-56 bg-white rounded-xl shadow-lg border border-navy-100 py-1 text-navy-900">
-                  {/* Mobile-only nav links */}
-                  <div className="sm:hidden border-b border-navy-100 pb-1 mb-1">
-                    {NAV_ITEMS.map(({ to, label }) => (
-                      <NavLink
-                        key={to}
-                        to={to}
-                        onClick={() => setMenuOpen(false)}
-                        className={({ isActive }) =>
-                          `block px-4 py-2 text-sm transition-colors ${
-                            isActive ? 'text-navy-800 font-semibold' : 'text-navy-600 hover:bg-navy-50'
-                          }`
-                        }
-                      >
-                        {label}
-                      </NavLink>
-                    ))}
+                <div className="absolute right-0 mt-2 w-52 bg-white rounded-xl shadow-xl border border-navy-100 py-1 text-navy-900">
+                  {NAV_ITEMS.map(({ to, label }) => (
                     <NavLink
-                      to="/profile"
+                      key={to}
+                      to={to}
                       onClick={() => setMenuOpen(false)}
                       className={({ isActive }) =>
-                        `block px-4 py-2 text-sm transition-colors ${
-                          isActive ? 'text-navy-800 font-semibold' : 'text-navy-600 hover:bg-navy-50'
+                        `block px-4 py-2.5 text-sm transition-colors ${
+                          isActive
+                            ? 'font-semibold text-navy-900 bg-navy-50'
+                            : 'text-navy-600 hover:bg-navy-50'
                         }`
                       }
                     >
-                      Profile
+                      {label}
                     </NavLink>
-                  </div>
+                  ))}
 
-                  {/* Sign out */}
-                  <button
-                    onClick={handleSignOut}
-                    className="w-full text-left px-4 py-2 text-sm hover:bg-navy-50 transition-colors"
-                  >
-                    Sign out
-                  </button>
-
-                  {/* Build info */}
-                  <div className="px-4 py-2 text-xs text-navy-300 border-t border-navy-100 font-mono">
-                    {__BUILD__}
+                  <div className="border-t border-navy-100 mt-1 pt-1">
+                    <button
+                      onClick={handleSignOut}
+                      className="w-full text-left px-4 py-2.5 text-sm text-navy-600 hover:bg-navy-50 transition-colors"
+                    >
+                      Sign out
+                    </button>
+                    <p className="px-4 py-2 text-xs text-navy-300 font-mono">
+                      {__BUILD__}
+                    </p>
                   </div>
                 </div>
               )}
             </div>
-          </div>
+          </>
         )}
       </header>
 
-      {/* Main */}
+      {/* ── Page content ── */}
       <main className="flex-1 w-full max-w-2xl mx-auto px-4 py-4">
         {children}
       </main>
 
-      {/* Footer */}
+      {/* ── Footer ── */}
       <footer className="py-3 text-center text-xs text-navy-300">
         Redlands Church of the Nazarene
       </footer>

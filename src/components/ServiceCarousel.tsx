@@ -33,10 +33,10 @@ export function ServiceCarousel({ index, onChange }: Props) {
       </button>
 
       <div className="text-center flex-1">
-        <p className="text-sm font-semibold text-navy-800">
+        <p className="text-base font-bold text-navy-800">
           {formatServiceDate(SERVICE_DATES[index].date)}
         </p>
-        <p className="text-xs text-navy-400">
+        <p className="text-xs text-navy-400 mt-0.5">
           Service {index + 1} of {SERVICE_DATES.length}
         </p>
       </div>
