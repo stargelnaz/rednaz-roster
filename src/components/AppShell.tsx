@@ -1,15 +1,14 @@
 import { useState, useRef, useEffect } from 'react'
 import { NavLink, useNavigate } from 'react-router-dom'
-import { Menu, X, Users, Briefcase, CalendarDays, UserCircle } from 'lucide-react'
+import { Menu, X, UserCircle } from 'lucide-react'
 import { useAuth } from '../context/AuthContext'
 
 declare const __BUILD__: string
 
 const NAV_ITEMS = [
-  { to: '/people',   label: 'People',   icon: Users },
-  { to: '/roles',    label: 'Roles',    icon: Briefcase },
-  { to: '/calendar', label: 'Calendar', icon: CalendarDays },
-  { to: '/profile',  label: 'Profile',  icon: UserCircle },
+  { to: '/people',   label: 'People' },
+  { to: '/calendar', label: 'Calendar' },
+  { to: '/roles',    label: 'Roles' },
 ]
 
 export function AppShell({ children }: { children: React.ReactNode }) {
@@ -36,66 +35,113 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   return (
     <div className="min-h-svh flex flex-col bg-navy-50">
       {/* Header */}
-      <header className="bg-navy-900 text-gold-100 px-4 py-3 flex items-center justify-between sticky top-0 z-40">
+      <header className="bg-navy-900 text-gold-100 px-4 py-2.5 flex items-center gap-4 sticky top-0 z-40">
+        {/* Logo */}
         <span
-          className="font-semibold tracking-wide text-lg cursor-pointer"
+          className="font-semibold tracking-wide text-lg cursor-pointer flex-shrink-0"
           onClick={() => navigate('/roster')}
         >
-          RedNaz Roster
+          RedNaz
         </span>
 
-        {/* Hamburger */}
+        {/* Wide nav links (hidden on mobile) */}
         {user && (
-          <div className="relative" ref={menuRef}>
-            <button
-              onClick={() => setMenuOpen((o) => !o)}
-              className="p-1 rounded hover:bg-navy-700 transition-colors"
-              aria-label="Menu"
-            >
-              {menuOpen ? <X size={22} /> : <Menu size={22} />}
-            </button>
+          <nav className="hidden sm:flex items-center gap-1 flex-1">
+            {NAV_ITEMS.map(({ to, label }) => (
+              <NavLink
+                key={to}
+                to={to}
+                className={({ isActive }) =>
+                  `px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
+                    isActive
+                      ? 'bg-navy-700 text-gold-300'
+                      : 'text-navy-300 hover:bg-navy-800 hover:text-gold-100'
+                  }`
+                }
+              >
+                {label}
+              </NavLink>
+            ))}
+          </nav>
+        )}
 
-            {menuOpen && (
-              <div className="absolute right-0 mt-2 w-52 bg-white rounded-xl shadow-lg border border-navy-100 py-1 text-navy-900">
-                <div className="px-4 py-2 text-xs text-navy-400 border-b border-navy-100">
-                  {user.email}
+        {/* Spacer on mobile */}
+        <div className="flex-1 sm:hidden" />
+
+        {/* Right side: build info (wide) + profile/hamburger */}
+        {user && (
+          <div className="flex items-center gap-3">
+            {/* Build info — wide screens only */}
+            <span className="hidden sm:block text-xs text-navy-400 font-mono">
+              {__BUILD__}
+            </span>
+
+            {/* Profile / hamburger */}
+            <div className="relative" ref={menuRef}>
+              {/* Wide: profile icon; narrow: hamburger */}
+              <button
+                onClick={() => setMenuOpen((o) => !o)}
+                className="p-1 rounded hover:bg-navy-700 transition-colors"
+                aria-label="Menu"
+              >
+                {menuOpen
+                  ? <X size={22} />
+                  : <span className="sm:hidden"><Menu size={22} /></span>
+                }
+                <span className="hidden sm:inline">
+                  <UserCircle size={22} className="text-navy-300 hover:text-gold-200 transition-colors" />
+                </span>
+              </button>
+
+              {menuOpen && (
+                <div className="absolute right-0 mt-2 w-56 bg-white rounded-xl shadow-lg border border-navy-100 py-1 text-navy-900">
+                  {/* Mobile-only nav links */}
+                  <div className="sm:hidden border-b border-navy-100 pb-1 mb-1">
+                    {NAV_ITEMS.map(({ to, label }) => (
+                      <NavLink
+                        key={to}
+                        to={to}
+                        onClick={() => setMenuOpen(false)}
+                        className={({ isActive }) =>
+                          `block px-4 py-2 text-sm transition-colors ${
+                            isActive ? 'text-navy-800 font-semibold' : 'text-navy-600 hover:bg-navy-50'
+                          }`
+                        }
+                      >
+                        {label}
+                      </NavLink>
+                    ))}
+                    <NavLink
+                      to="/profile"
+                      onClick={() => setMenuOpen(false)}
+                      className={({ isActive }) =>
+                        `block px-4 py-2 text-sm transition-colors ${
+                          isActive ? 'text-navy-800 font-semibold' : 'text-navy-600 hover:bg-navy-50'
+                        }`
+                      }
+                    >
+                      Profile
+                    </NavLink>
+                  </div>
+
+                  {/* Sign out */}
+                  <button
+                    onClick={handleSignOut}
+                    className="w-full text-left px-4 py-2 text-sm hover:bg-navy-50 transition-colors"
+                  >
+                    Sign out
+                  </button>
+
+                  {/* Build info */}
+                  <div className="px-4 py-2 text-xs text-navy-300 border-t border-navy-100 font-mono">
+                    {__BUILD__}
+                  </div>
                 </div>
-                <button
-                  onClick={handleSignOut}
-                  className="w-full text-left px-4 py-2 text-sm hover:bg-navy-50 transition-colors"
-                >
-                  Sign out
-                </button>
-                <div className="px-4 py-2 text-xs text-navy-300 border-t border-navy-100 font-mono">
-                  {__BUILD__}
-                </div>
-              </div>
-            )}
+              )}
+            </div>
           </div>
         )}
       </header>
-
-      {/* Nav tabs */}
-      {user && (
-        <nav className="bg-white border-b border-navy-100 flex">
-          {NAV_ITEMS.map(({ to, label, icon: Icon }) => (
-            <NavLink
-              key={to}
-              to={to}
-              className={({ isActive }) =>
-                `flex-1 flex flex-col items-center gap-0.5 py-2 text-xs font-medium transition-colors ${
-                  isActive
-                    ? 'text-navy-700 border-b-2 border-gold-500'
-                    : 'text-navy-400 hover:text-navy-700'
-                }`
-              }
-            >
-              <Icon size={18} />
-              {label}
-            </NavLink>
-          ))}
-        </nav>
-      )}
 
       {/* Main */}
       <main className="flex-1 w-full max-w-2xl mx-auto px-4 py-4">
