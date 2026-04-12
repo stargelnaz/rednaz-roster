@@ -60,12 +60,14 @@ export function RoleBox({ role, assignments, onConfirmToggle, onEdit }: Props) {
                 <button
                   onClick={() => onConfirmToggle(a.personId)}
                   aria-label={a.confirmed ? 'Unconfirm' : 'Confirm'}
-                  className={`w-3 h-3 rounded-full flex-shrink-0 transition-colors ${
+                  className={`text-[10px] font-semibold px-1.5 py-0.5 rounded-full transition-colors flex-shrink-0 ${
                     a.confirmed
-                      ? 'bg-green-500 hover:bg-green-600'
-                      : 'bg-red-500 hover:bg-red-600'
+                      ? 'bg-green-100 text-green-700 hover:bg-green-200'
+                      : 'bg-red-100 text-red-600 hover:bg-red-200'
                   }`}
-                />
+                >
+                  {a.confirmed ? 'Confirmed' : 'Unconfirmed'}
+                </button>
               </div>
             )
           })
