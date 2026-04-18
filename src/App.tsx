@@ -9,7 +9,6 @@ import { RolesPage } from './pages/RolesPage'
 import { CalendarPage } from './pages/CalendarPage'
 import { ProfilePage } from './pages/ProfilePage'
 import { SettingsPage } from './pages/SettingsPage'
-import { ChildrenPage } from './pages/ChildrenPage'
 
 function App() {
   return (
@@ -30,7 +29,6 @@ function App() {
                     <Route path="/calendar" element={<CalendarPage />} />
                     <Route path="/profile"   element={<ProfilePage />} />
                     <Route path="/settings"  element={<SettingsPage />} />
-                    <Route path="/children"  element={<ChildrenPage />} />
                     <Route path="*"          element={<Navigate to="/roster" replace />} />
                   </Routes>
                 </AppShell>

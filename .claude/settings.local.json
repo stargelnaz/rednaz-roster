@@ -2,7 +2,13 @@
   "permissions": {
     "allow": [
       "Bash(npm install:*)",
-      "Bash(npm run:*)"
+      "Bash(npm run:*)",
+      "Skill(update-config)",
+      "Skill(update-config:*)"
     ]
+  },
+  "enabledPlugins": {
+    "nextjs@vercel-plugin": false,
+    "react-best-practices@vercel-plugin": false
   }
 }
