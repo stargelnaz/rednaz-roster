@@ -22,7 +22,7 @@ export function HomePage() {
     if (err) {
       setError(err)
     } else {
-      navigate('/roster')
+      navigate('/chooser')
     }
   }
 
@@ -36,28 +36,34 @@ export function HomePage() {
       {/* Main */}
       <main className="flex-1 flex flex-col items-center justify-center px-4 pb-12">
         <div className="w-full max-w-sm">
-          <h1 className="text-3xl font-bold text-gold-300 text-center mb-1 tracking-tight">
+          <h1 className="text-3xl font-bold text-gold-300 text-center mb-10 tracking-tight">
             Redlands Church of the Nazarene
           </h1>
-          <p className="text-center text-navy-300 text-sm mb-10">
-            Service Roster
-          </p>
 
           {!showForm ? (
             <div className="flex flex-col items-center gap-4">
               <button
-                onClick={() => setShowForm(true)}
-                className="w-full bg-gold-500 hover:bg-gold-400 text-navy-900 font-semibold py-3 px-8 rounded-xl shadow transition-colors"
+                disabled
+                className="w-full bg-navy-800 text-navy-500 font-semibold py-3 px-8 rounded-xl shadow cursor-not-allowed opacity-50"
               >
-                Sign In
+                Sign In (Suspended)
               </button>
-              <button
-                onClick={() => { bypass(); navigate('/roster') }}
-                className="text-xs text-navy-500 border border-dashed border-navy-600 hover:border-navy-400 hover:text-navy-300 px-4 py-1.5 rounded-lg transition-colors"
-              >
-                Scott Login Bypass
-              </button>
+              <div className="flex gap-2 w-full">
+                <button
+                  onClick={() => { bypass('Scott'); navigate('/chooser') }}
+                  className="flex-1 text-xs text-navy-500 border border-dashed border-navy-600 hover:border-navy-400 hover:text-navy-300 px-4 py-1.5 rounded-lg transition-colors"
+                >
+                  Scott Login Bypass
+                </button>
+                <button
+                  onClick={() => { bypass('Linda'); navigate('/chooser') }}
+                  className="flex-1 text-xs text-navy-500 border border-dashed border-navy-600 hover:border-navy-400 hover:text-navy-300 px-4 py-1.5 rounded-lg transition-colors"
+                >
+                  Linda Login Bypass
+                </button>
+              </div>
             </div>
+
           ) : (
             <form onSubmit={handleSubmit} className="flex flex-col gap-4">
               <div className="flex flex-col gap-1">

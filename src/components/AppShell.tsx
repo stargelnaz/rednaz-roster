@@ -39,17 +39,24 @@ export function AppShell({ children }: { children: React.ReactNode }) {
 
       {/* ── Header bar ── */}
       <header
-        className="w-full sticky top-0 z-40 flex items-center"
+        className="w-full sticky top-0 z-40 flex items-center relative"
         style={{ backgroundColor: '#fbbf24', height: '64px' }}
       >
         {/* Logo — flush left, full bar height, blend black away */}
         <img
           src="/rednaz-logo.png"
           alt="Redlands Church of the Nazarene"
-          onClick={() => navigate('/roster')}
-          className="h-full w-auto cursor-pointer flex-shrink-0"
+          onClick={() => navigate('/chooser')}
+          className="h-full w-auto cursor-pointer flex-shrink-0 relative z-50"
           style={{ mixBlendMode: 'screen' }}
         />
+
+        {/* Centered App Name */}
+        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+          <span className="text-navy-900 font-black text-2xl tracking-tighter">
+            RedNaz
+          </span>
+        </div>
 
         {/* Push nav to the right */}
         <div className="flex-1" />

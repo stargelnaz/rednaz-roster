@@ -45,3 +45,24 @@ body {
 .box-confirmed {
   box-shadow: 0 0 0 1px rgba(74, 222, 128, 0.4), 0 0 14px 3px rgba(74, 222, 128, 0.25);
 }
+
+@keyframes shimmer {
+  0% { background-position: -100% 0; }
+  100% { background-position: 100% 0; }
+}
+
+.foil-text {
+  background: linear-gradient(
+    90deg,
+    #9a7b4f 0%,
+    #d4af37 40%,
+    #fcf6ba 50%,
+    #d4af37 60%,
+    #9a7b4f 100%
+  );
+  background-size: 200% auto;
+  color: transparent;
+  background-clip: text;
+  -webkit-background-clip: text;
+  animation: shimmer 12s ease-in-out infinite;
+}

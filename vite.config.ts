@@ -11,6 +11,9 @@ const BUILD_INFO = `v0.1.0 · ${buildDate}`
 
 export default defineConfig({
   plugins: [react(), tailwindcss()],
+  server: {
+    port: 5180,
+  },
   define: {
     __BUILD__: JSON.stringify(BUILD_INFO),
   },

@@ -3,6 +3,8 @@ import { AuthProvider } from './context/AuthContext'
 import { ProtectedRoute } from './components/ProtectedRoute'
 import { AppShell } from './components/AppShell'
 import { HomePage } from './pages/HomePage'
+import { ProgramChooserPage } from './pages/ProgramChooserPage'
+import { PrayerPage } from './pages/PrayerPage'
 import { RosterPage } from './pages/RosterPage'
 import { PeoplePage } from './pages/PeoplePage'
 import { RolesPage } from './pages/RolesPage'
@@ -22,6 +24,8 @@ function App() {
               <ProtectedRoute>
                 <AppShell>
                   <Routes>
+                    <Route path="/chooser"  element={<ProgramChooserPage />} />
+                    <Route path="/prayer"   element={<PrayerPage />} />
                     <Route path="/roster"   element={<RosterPage />} />
                     <Route path="/people"   element={<PeoplePage />} />
                     <Route path="/people/:id" element={<PeoplePage />} />
@@ -29,7 +33,7 @@ function App() {
                     <Route path="/calendar" element={<CalendarPage />} />
                     <Route path="/profile"   element={<ProfilePage />} />
                     <Route path="/settings"  element={<SettingsPage />} />
-                    <Route path="*"          element={<Navigate to="/roster" replace />} />
+                    <Route path="*"          element={<Navigate to="/chooser" replace />} />
                   </Routes>
                 </AppShell>
               </ProtectedRoute>
